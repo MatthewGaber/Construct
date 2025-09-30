@@ -115,4 +115,16 @@ Creates `model_reports/<timestamp>/` with:
 python ml-classifier.py
 ```
 
+### Plotting scripts
 
+- `plots.py` — early learning/prototyping script retained as a building block and reference.
+- `plots2.py` — early learning/prototyping script retained as a building block and reference.
+- `plots3.py` — early learning/prototyping script retained as a building block and reference.
+- `plot_by_malware_type.py` — **current** plotting entrypoint. Use `plot_by_malware_type.py` for the full, up-to-date set of figures.
+
+### Map scripts
+
+- `geolocate_maliciousip_map.py` — plots malcious flow heatmap by country for one type of malware
+- `maliciousip_map_types_combined.py` — plots malcious flow heatmap by country for all types of malware
+
+![Worm Malicious Flows by Country](plots/worm_flows_country_heatmap.png)

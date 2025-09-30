@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 # Scan everything under this top-level folder:
-INPUT_BASE_DIR = "Spyware"
+INPUT_BASE_DIR = "Worm"
 
 # Where to save the single combined heatmap:
-OUTPUT_PNG_PATH = os.path.join(INPUT_BASE_DIR, "Spyware_heatmap.png")
+OUTPUT_PNG_PATH = os.path.join("plots/worm_flows_country_heatmap.png")
 
 class MaliciousFlowsCountryHeatmap:
     """
@@ -178,7 +178,7 @@ class MaliciousFlowsCountryHeatmap:
                     color="black",
                 )
 
-        ax.set_title("Malicious Flows by Country (All Ransomware folders)", fontsize=18, color="black")
+        ax.set_title("Worm Malicious Flows by Country", fontsize=18, color="black")
         ax.axis("off")
 
         
