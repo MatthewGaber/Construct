@@ -1,5 +1,5 @@
 ## Construct
-
+![ECU-MALNETT](/ECU-MALNETT-logo.png)
 Modular pipeline that turns raw **PCAPs → enriched sessions → heuristic scores → CSV/JSON reports**.
 
 #### Modules
