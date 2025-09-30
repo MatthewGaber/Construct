@@ -1,0 +1,32 @@
+# env & secrets
+.env
+*.env
+*.pem
+*.key
+*.p12
+*.crt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
+
+# Logs & caches
+*.log
+logs/
+.cache/
+.tmp/
+*.csv
+*.json
+APT/
+Baseline/
+Benign/
+Botnet/
+model_reports/
+Ransomware/
+Spyware/
+Tool/
+Trojan/
+Worm/
+analysis_output_benign_baseline_labelled/
