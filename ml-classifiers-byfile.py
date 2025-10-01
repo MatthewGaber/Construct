@@ -77,7 +77,7 @@ except Exception:
 # ---------------------------
 # Config
 # ---------------------------
-BENIGN_DIR = "analysis_output_benign_baseline_labelled"
+BENIGN_DIR = "Benign/analysis_output_benign_baseline_labelled"
 RANSOMWARE_DIR = "Spyware"
 EXCLUDE_SUBSTR = "-with-ipinfo-"
 OUTPUT_ROOT = "model_reports"

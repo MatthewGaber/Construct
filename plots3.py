@@ -65,7 +65,7 @@ def load_csvs_nested_all(parent_folder):
 # ----------------------------
 # Paths / load
 # ----------------------------
-benign_path = 'analysis_output_benign_baseline_labelled'
+benign_path = 'Benign/analysis_output_benign_baseline_labelled'
 spyware_path = 'Spyware'  # malware families in subfolders
 
 df_benign = load_csvs_flat(benign_path)

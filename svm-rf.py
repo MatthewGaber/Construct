@@ -11,7 +11,7 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 
 # Paths 
 MAZE_PATH = 'Ransomware/analysis_output_maze_baseline_labelled'     
-BENIGN_PATH = 'analysis_output_benign_baseline_labelled' 
+BENIGN_PATH = 'Benignanalysis_output_benign_baseline_labelled' 
 EXCLUDE_SUBSTR = "-with-ipinfo-"
 
 
