@@ -127,7 +127,7 @@ class CombinedMalwareHeatmap:
     def _load_world(self):
         world = gpd.read_file(self.world_shp)
         world["Country_English"] = world["ADMIN"]
-        # ensure we have ISO_A3 column to merge on (Natural Earth commonly uses 'ADM0_A3' or 'iso_a3')
+        # ensure there is ISO_A3 column to merge on (Natural Earth commonly uses 'ADM0_A3' or 'iso_a3')
         if "ISO_A3" not in world.columns:
             # Try common fields
             if "ADM0_A3" in world.columns:
@@ -259,7 +259,7 @@ class CombinedMalwareHeatmap:
         cbar.set_ticklabels([str(v) for v in ticks_raw])
         cbar.ax.tick_params(labelcolor="black")
 
-        # default label offset (replicates your current "+3 lat")
+        # default label offset (replicates the "+3 lat")
         DEFAULT_OFFSET = (0, 2.8)  # (d_lon, d_lat), degrees
 
         # per-country custom offsets

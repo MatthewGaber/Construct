@@ -48,7 +48,7 @@ def enrich_sessions_with_features(sessions):
                         'dns_sub_entropy':  calculate_entropy(sub)
                     })
                 else:
-                    q = ''  # fallback; we still try to parse answers
+                    q = ''  # fallback -- still try to parse answers
 
                 #answers (A/AAAA/CNAME) in a portable schema expected by main.py
                 answers = []

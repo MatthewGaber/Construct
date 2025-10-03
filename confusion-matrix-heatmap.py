@@ -6,8 +6,8 @@ from matplotlib.ticker import FuncFormatter
 from pathlib import Path
 import seaborn as sns
 from matplotlib import patheffects
-
-
+import matplotlib as mpl
+from matplotlib.colors import LinearSegmentedColormap
 
 # (TN, FP ; FN, TP)
 cm_worm = {
@@ -19,8 +19,10 @@ cm_worm = {
                                [   117,  2_068]], dtype=int),
     "Grad. Boost":   np.array([[38_475,      7],
                                [   597,  1_588]], dtype=int),
-    "LSTM":          np.array([[     0,      0],
-                               [     0,      0]], dtype=int),
+    "LightGBM":      np.array([[36_307,  2_175],
+                               [   170,  2_015]], dtype=int),
+    "LSTM":          np.array([[15_075,  1_204],
+                               [304,     234]], dtype=int),
 }
 
 cm_ransom = {
@@ -32,8 +34,10 @@ cm_ransom = {
                                [    220,   1_287]], dtype=int),
     "Grad. Boost":   np.array([[121_181,      21],
                                [  1_340,     167]], dtype=int),
-    "LSTM":          np.array([[ 64_517,   2_249],
-                               [    628,     257]], dtype=int),
+    "LightGBM":      np.array([[ 114_922,   6_280],
+                               [    134,    1_373]], dtype=int),
+    "LSTM":          np.array([[ 54_507,   1_896],
+                               [    319,     264]], dtype=int),
 }
 
 cm_trojan = {
@@ -45,8 +49,10 @@ cm_trojan = {
                                [    196,   4_466]], dtype=int),
     "Grad. Boost":   np.array([[221_427,      18],
                                [  2_593,   2_069]], dtype=int),
-    "LSTM":          np.array([[      0,       0],
-                               [      0,       0]], dtype=int),
+    "LightGBM":      np.array([[215_542,   5_903],
+                               [    280,   4_382]], dtype=int),
+    "LSTM":          np.array([[107_928,     503],
+                               [  1_729,   1_246]], dtype=int),
 }
 cm_spyware = {
     "SVM":           np.array([[138_383,     28],
@@ -57,8 +63,10 @@ cm_spyware = {
                                [    189,  2_103]], dtype=int),
     "Grad. Boost":   np.array([[138_385,     26],
                                [  1_224,  1_068]], dtype=int),
-    "LSTM":          np.array([[      0,       0],
-                               [      0,       0]], dtype=int),
+    "LightGBM":      np.array([[136_731,  1_680],
+                               [    140,  2_152]], dtype=int),
+    "LSTM":          np.array([[ 89_989,  1_813],
+                               [    705,    468]], dtype=int),
 }
 
 cm_botnet = {
@@ -70,8 +78,10 @@ cm_botnet = {
                                [   114,  1_785]], dtype=int),
     "Grad. Boost":   np.array([[70_851,     24],
                                [ 1_089,    810]], dtype=int),
-    "LSTM":          np.array([[     0,      0],
-                               [     0,      0]], dtype=int),
+    "LightGBM":      np.array([[69_216,  1_659],
+                               [   140,  1_759]], dtype=int),
+    "LSTM":          np.array([[30_919,    950],
+                               [ 1_102,    242]], dtype=int),
 }
 
 cm_tool = {
@@ -83,6 +93,8 @@ cm_tool = {
                                [ 1_500,135_625]], dtype=int),
     "Grad. Boost":   np.array([[44_521,    198],
                                [ 1_040,136_085]], dtype=int),
+    "LightGBM":      np.array([[44_591,    128],
+                               [   357,136_768]], dtype=int),                             
     "LSTM":          np.array([[     0,      0],
                                [     0,      0]], dtype=int),
 }
@@ -96,8 +108,10 @@ cm_apt = {
                                [    38,    369]], dtype=int),
     "Grad. Boost":   np.array([[ 6_741,      1],
                                [   396,     11]], dtype=int),
-    "LSTM":          np.array([[16_618,  1_826],
-                               [   295,    230]], dtype=int),
+    "LightGBM":      np.array([[ 6_013,    729],
+                               [    64,    343]], dtype=int),
+    "LSTM":          np.array([[19_684,  1_353],
+                               [   382,    236]], dtype=int),
 }
 
 TYPES = [
@@ -110,7 +124,7 @@ TYPES = [
     ("APT",        cm_apt),
 ]
 
-MODELS = ["SVM", "Random Forest", "Logistic Reg.", "Grad. Boost", "LSTM"]
+MODELS = ["SVM", "Random Forest", "Logistic Reg.", "Grad. Boost", "LightGBM", "LSTM"]
 
 # ---------------------------
 # Settings
@@ -140,11 +154,18 @@ def tile_rates(cm):
     mask = np.isnan(arr)
     return arr, mask
 
+def truncated_cmap(name="Reds", low=0.25, high=1.0, N=256):
+    base = mpl.colormaps[name]
+    colors = base(np.linspace(low, high, N))
+    return LinearSegmentedColormap.from_list(f"{name}_trunc_{low}_{high}", colors)
+
+Reds_darker = truncated_cmap("Reds", low=0.15, high=1.0)
+
 def draw_tile(ax, cm, show_xticks=False, show_yticks=False):
     arr, mask = tile_rates(cm)
-    ax.set_facecolor("#eeeeee")  # TN/TP background via mask
+    ax.set_facecolor("#c2c2c2")  # TN/TP background via mask
     sns.heatmap(
-        arr, ax=ax, mask=mask, cmap="Reds", vmin=0, vmax=1, cbar=False,
+        arr, ax=ax, mask=mask, cmap=Reds_darker, vmin=0, vmax=1, cbar=False,
         square=False, linewidths=0.5, linecolor="white",
         xticklabels=False, yticklabels=False
     )
@@ -153,8 +174,8 @@ def draw_tile(ax, cm, show_xticks=False, show_yticks=False):
         for j in range(2):
             ax.text(
             j + 0.5, i + 0.5, f"{cm[i, j]:,}",
-            ha="center", va="center", fontsize=11, weight="bold", color="black",
-            bbox=dict(boxstyle="round,pad=0.18", facecolor="white", alpha=0.75, edgecolor="none"),
+            ha="center", va="center", fontsize=11, weight="normal", color="white",
+            #bbox=dict(boxstyle="round,pad=0.18", facecolor="white", alpha=0.75, edgecolor="none"),
             transform=ax.transData
 )
     # Optional ticks only on the first tile
@@ -203,7 +224,7 @@ for r, (typename, cmdict) in enumerate(TYPES):
         ax = axes[r, c]
         cm = cmdict[model]
         if r == 0:
-            ax.set_title(model, fontsize=14, pad=6, color="black")
+            ax.set_title(model, fontsize=14, pad=12, color="black")
         show_xticks = (r == 0)
         show_yticks = (c == 0)
         draw_tile(ax, cm, show_xticks, show_yticks)
@@ -213,9 +234,9 @@ for r, (typename, cmdict) in enumerate(TYPES):
         ha="right", va="center", rotation=90, fontsize=14, color="black"
     )
 
-# Shared colorbar (0..1 rate) with percent ticks
+
 norm = Normalize(vmin=0.0, vmax=1.0)
-sm = plt.cm.ScalarMappable(norm=norm, cmap="Reds"); sm.set_array([])
+sm = plt.cm.ScalarMappable(norm=norm, cmap=Reds_darker); sm.set_array([])
 cbar = fig.colorbar(sm, ax=axes.ravel().tolist(), shrink=0.92, pad=0.02, fraction=0.03, aspect=40)
 cbar.set_label("Error rates (FP and FN)", fontsize=12, color="black")
 cbar.ax.yaxis.set_major_formatter(FuncFormatter(lambda x, pos: f"{x*100:.0f}%"))

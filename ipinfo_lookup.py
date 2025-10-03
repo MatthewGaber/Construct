@@ -22,7 +22,7 @@ INPUT_DIR = "Tool/analysis_output_mimikatz_baseline_labelled"
 TOKEN = ""        # <-- put your token here
 SLEEP = 1.0              # seconds between IPinfo requests
 
-# Columns we’ll add to the CSV
+# Columns add to the CSV
 IPINFO_FIELDS = [
     "IP", "City", "Region", "Country", "Postcode",
     "Timezone", "Latitude", "Longitude", "ISP"
@@ -96,7 +96,7 @@ class IPInfoClient:
             self._cache[ip] = None
             return None
 
-        # Extract fields we keep
+        # Extract fields to keep
         loc = data.get("loc", "")
         if loc:
             try:

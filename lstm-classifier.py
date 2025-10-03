@@ -34,7 +34,7 @@ from sklearn.impute import SimpleImputer
  
 # ================== Config ==================
 BENIGN_DIR = "Benign/analysis_output_benign_baseline_labelled"
-RANSOMWARE_DIR = "Tool"  # or "Ransomware" in your tree
+RANSOMWARE_DIR = "Tool"  # or "Ransomware" etc as per the tree
 EXCLUDE_SUBSTR = "-with-ipinfo-"
 OUTPUT_ROOT = "model_reports"
  
@@ -146,7 +146,7 @@ def clean_types(df: pd.DataFrame) -> pd.DataFrame:
     for c in df.columns:
         if df[c].dtype == "object" and mostly_numeric(df[c]):
             df[c] = pd.to_numeric(df[c], errors="coerce")
-    # Coerce timestamp if numeric-ish (we only use it for sorting)
+    # Coerce timestamp if numeric-ish - only use it for sorting
     if "timestamp" in df.columns and df["timestamp"].dtype == "object" and mostly_numeric(df["timestamp"]):
         df["timestamp"] = pd.to_numeric(df["timestamp"], errors="coerce")
     return df

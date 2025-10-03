@@ -129,7 +129,7 @@ def debug_preprocessor_per_fold(preprocessor, X, y, groups, n_splits=3, random_s
         Xtr, Xte, ytr, yte = X.iloc[tr], X.iloc[te], y.iloc[tr], y.iloc[te]
         try:
             pre = preprocessor.fit(Xtr, ytr)
-            _ = pre.transform(Xte)  # this is where your CV crash happens
+            _ = pre.transform(Xte)  
             print(f"[Debug] Fold {fold}: OK  (train {Xtr.shape}, test {Xte.shape})")
         except Exception as e:
             print(f"[Debug] Fold {fold}: **FAIL**  (train {Xtr.shape}, test {Xte.shape}) -> {repr(e)}")
@@ -353,7 +353,7 @@ def evaluate_at_sample_level(
       - folder-based: label comes from directory (0=benign, 1=ransomware)
       - flow-derived: 1 if the sample has >=1 true-malicious flow in the TEST subset
 
-    pred_sample (YOUR AND RULE):
+    pred_sample (THE AND RULE):
       1 if (n_pred_mal >= threshold_count) AND (n_pred_mal / n_flows >= threshold_ratio)
       If threshold_ratio is None, it's treated as TRUE (i.e., count-only).
     """

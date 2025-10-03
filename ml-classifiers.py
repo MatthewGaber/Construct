@@ -371,14 +371,14 @@ def evaluate_models_binary(X: pd.DataFrame, y: pd.Series, groups_all: pd.Series,
         }
         results.append(row)
 
-                # ---------- NEW: SAMPLE-LEVEL reporting ----------
+                # ---------- SAMPLE-LEVEL reporting ----------
         evaluate_at_sample_level(
             y_true=y_test,
             y_pred=y_pred,
             groups=g_test,                     # <— file IDs aligned to test rows
             out_dir=model_dir / "samples",
             threshold_count=SAMPLE_THRESHOLD_COUNT,
-            threshold_ratio=SAMPLE_THRESHOLD_RATIO,  # None if you only want the count rule
+            threshold_ratio=SAMPLE_THRESHOLD_RATIO,  # I use None - if you only want the count rule
         )
 
 

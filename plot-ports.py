@@ -2,7 +2,7 @@
 """
 nonstandard_ports.py
 
-Detect and visualize non-standard port use from your flow CSVs.
+Detect and visualize non-standard port use from the flow CSVs.
 
 - Loads benign CSVs from a flat folder and malware CSVs from nested subfolders.
 - Canonicalizes app from app_proto (fallback to protocol if specific).
